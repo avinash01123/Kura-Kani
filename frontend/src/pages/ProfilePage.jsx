@@ -11,7 +11,6 @@ const ProfilePage = () => {
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.readAsDataURL(file);
 
     reader.onload = async () => {
@@ -22,76 +21,76 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="h-screen pt-20">
-      <div className="max-w-2xl mx-auto p-4 py-8">
-        <div className="bg-base-300 rounded-xl p-6 space-y-8">
+    <div className="min-h-screen pt-20 px-4 bg-base-100 text-base-content">
+      <div className="max-w-3xl mx-auto py-10">
+        <div className="bg-base-200 rounded-3xl shadow-xl p-10 space-y-10 border border-base-300">
           <div className="text-center">
-            <h1 className="text-2xl font-semibold ">Profile</h1>
-            <p className="mt-2">Your profile information</p>
-          </div>
-
-
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative">
-              <img
-                src={selectedImg || authUser.profilePic || "/avatar.png"}
-                alt="Profile"
-                className="size-32 rounded-full object-cover border-4 "
-              />
-              <label
-                htmlFor="avatar-upload"
-                className={`
-                  absolute bottom-0 right-0 
-                  bg-base-content hover:scale-105
-                  p-2 rounded-full cursor-pointer 
-                  transition-all duration-200
-                  ${isUpdatingProfile ? "animate-pulse pointer-events-none" : ""}
-                `}
-              >
-                <Camera className="w-5 h-5 text-base-200" />
-                <input
-                  type="file"
-                  id="avatar-upload"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={isUpdatingProfile}
-                />
-              </label>
-            </div>
-            <p className="text-sm text-zinc-400">
-              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
+            <h1 className="text-4xl font-bold tracking-tight">Your Profile</h1>
+            <p className="text-sm text-base-content/60 mt-2">
+              Update your personal info and photo
             </p>
           </div>
 
-          <div className="space-y-6">
-            <div className="space-y-1.5">
-              <div className="text-sm text-zinc-400 flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Full Name
-              </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.fullName}</p>
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="text-sm text-zinc-400 flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                Email Address
-              </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.email}</p>
+          <div className="flex justify-center">
+            <div className="relative group w-36 h-36 rounded-full overflow-hidden border-4 border-base-300 shadow-lg">
+              <img
+                src={selectedImg || authUser.profilePic || "/avatar.png"}
+                alt="Profile"
+                className="w-full h-full object-cover group-hover:brightness-75 transition-all"
+              />
+              <label
+                htmlFor="avatar-upload"
+                className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+              >
+                <Camera className="w-6 h-6 text-white" />
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={isUpdatingProfile}
+                  className="hidden"
+                />
+              </label>
             </div>
           </div>
 
-          <div className="mt-6 bg-base-300 rounded-xl p-6">
-            <h2 className="text-lg font-medium  mb-4">Account Information</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-zinc-700">
+          <p className="text-center text-sm text-base-content/60">
+            {isUpdatingProfile ? "Uploading..." : "Tap your picture to update"}
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-base-content/60 flex items-center gap-2">
+                <User className="w-4 h-4" /> Full Name
+              </label>
+              <div className="px-4 py-3 bg-base-100 border border-base-300 rounded-xl shadow-sm">
+                {authUser?.fullName}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-base-content/60 flex items-center gap-2">
+                <Mail className="w-4 h-4" /> Email
+              </label>
+              <div className="px-4 py-3 bg-base-100 border border-base-300 rounded-xl shadow-sm">
+                {authUser?.email}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-base-100 border border-base-300 rounded-xl p-6 shadow-inner space-y-4">
+            <h2 className="text-xl font-semibold text-base-content">
+              Account Details
+            </h2>
+            <div className="text-sm text-base-content/70 space-y-3">
+              <div className="flex justify-between border-b border-base-300 pb-2">
                 <span>Member Since</span>
                 <span>{authUser.createdAt?.split("T")[0]}</span>
-              </div>  
-              <div className="flex items-center justify-between py-2">
-                <span>Account Status</span>
-                <span className="text-green-500">Active</span>
+              </div>
+              <div className="flex justify-between pt-2">
+                <span>Status</span>
+                <span className="text-success font-semibold">Active</span>
               </div>
             </div>
           </div>
@@ -100,4 +99,5 @@ const ProfilePage = () => {
     </div>
   );
 };
+
 export default ProfilePage;

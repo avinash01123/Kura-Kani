@@ -6,42 +6,71 @@ const Navbar = () => {
   const { logout, authUser } = useAuthStore();
 
   return (
-    <header className="fixed top-0 w-full z-40 backdrop-blur-md bg-base-100/70 border-b border-base-300 font-montserrat">
-      <nav className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
-          <div className="size-8 rounded-md bg-primary/20 flex items-center justify-center">
-            <MessageSquareText className="w-4 h-4 text-primary" />
+    <header className="fixed top-0 w-full z-50 bg-base-100/80 backdrop-blur border-b border-base-300 shadow-sm">
+      <nav className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between font-sans">
+        <Link
+          to="/"
+          className="flex items-center gap-3 hover:opacity-90 transition"
+        >
+          <div className="bg-primary text-primary-content size-10 rounded-xl flex items-center justify-center shadow-inner">
+            <MessageSquareText className="w-5 h-5" />
           </div>
-          <span className="font-semibold text-lg tracking-tight">Kura Kani</span>
+          <h1 className="text-xl font-bold tracking-tight">Kura Kani</h1>
         </Link>
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          <Link
-            to="/settings"
-            className="btn btn-ghost btn-sm flex items-center gap-2 text-sm px-3 hover:bg-primary/10"
-          >
-            <Settings className="w-4 h-4" />
-            <span className="hidden sm:inline">Settings</span>
-          </Link>
+        <div className="flex items-center gap-4">
+          {authUser && (
+            <p className="hidden lg:block text-sm text-base-content">
+              Hello,{" "}
+              <span className="font-medium text-base-content">
+                {authUser.fullName?.split(" ")[0]}
+              </span>
+              !
+            </p>
+          )}
 
           {authUser && (
-            <>
-              <Link
-                to="/profile"
-                className="btn btn-ghost btn-sm flex items-center gap-2 text-sm px-3 hover:bg-primary/10"
+            <div className="dropdown dropdown-end">
+              <label
+                tabIndex={0}
+                className="btn btn-ghost p-0 hover:bg-transparent"
               >
-                <UserRound className="w-4 h-4" />
-                <span className="hidden sm:inline">Profile</span>
-              </Link>
-
-              <button
-                onClick={logout}
-                className="btn btn-ghost btn-sm flex items-center gap-2 text-sm px-3 hover:bg-error/10 text-error"
+                <div className="avatar">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-base-300 hover:ring-2 hover:ring-primary transition-all">
+                    <img
+                      src={authUser.profilePic || "/avatar.png"}
+                      alt="Profile"
+                    />
+                  </div>
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content mt-3 p-2 shadow-lg bg-base-200 rounded-xl w-52 space-y-1"
               >
-                <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Logout</span>
-              </button>
-            </>
+                <li>
+                  <Link to="/profile" className="flex items-center gap-2">
+                    <UserRound className="w-4 h-4" />
+                    <span>My Profile</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings" className="flex items-center gap-2">
+                    <Settings className="w-4 h-4" />
+                    <span>Settings</span>
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={logout}
+                    className="flex items-center gap-2 text-error hover:text-red-500"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
           )}
         </div>
       </nav>
