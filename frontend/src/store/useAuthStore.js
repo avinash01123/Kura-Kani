@@ -20,8 +20,7 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
       get().connectSocket();
-    } catch (error) {
-      console.log("Error in checkAuth: ", error);
+    } catch {
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -77,7 +76,6 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: response.data });
       toast.success("profile updated successfully");
     } catch (error) {
-      console.log("Error in update profile:", error);
       toast.error(error.response.data.message);
     } finally {
       set({ isUpdatingProfile: false });
