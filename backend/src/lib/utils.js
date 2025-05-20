@@ -1,19 +1,33 @@
-const jwt = require('jsonwebtoken')
-const { SECRET_KEY } = process.env
+const jwt = require("jsonwebtoken");
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const generateToken = (userId, res) => {
-  const token = jwt.sign({ userId }, SECRET_KEY, {
-    expiresIn: '7d'
-  })
+  const accessToken = jwt.sign({ userId }, ACCESS_SECRET_KEY, {
+    expiresIn: "15m",
+  });
 
-  res.cookie('jwt', token, {
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+  const refreshToken = jwt.sign({ userId }, REFRESH_SECRET_KEY, {
+    expiresIn: "60d",
+  });
+
+  res.cookie("access_token", accessToken, {
+    maxAge: 15 * 60 * 1000,
     httpOnly: true,
-    sameSite: 'strict',
-    secure: process.env.NODE_ENV !== 'development'
-  })
+    sameSite: "strict",
+    secure: process.env.NODE_ENV !== "development",
+  });
 
-  return token
-}
+  res.cookie("refresh_token", refreshToken, {
+    maxAge: 60 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV !== "development",
+  });
 
-module.exports = generateToken
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
+
+module.exports = generateToken;
