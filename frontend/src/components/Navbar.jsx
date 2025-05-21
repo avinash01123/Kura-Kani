@@ -8,11 +8,13 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 w-full z-50 bg-base-100/80 backdrop-blur border-b border-base-300 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between font-sans">
+        <div className="w-10 lg:hidden"></div>
+
         <Link
           to="/"
           className="flex items-center gap-3 hover:opacity-90 transition"
         >
-          <div className="bg-primary text-primary-content size-10 rounded-xl flex items-center justify-center shadow-inner">
+          <div className="hidden md:flex bg-primary text-primary-content size-10 rounded-xl items-center justify-center shadow-inner">
             <MessageSquareText className="w-5 h-5" />
           </div>
           <h1 className="text-xl font-bold tracking-tight">Kura Kani</h1>

@@ -99,7 +99,7 @@ const logout = (req, res) => {
   }
 };
 
-const refreshAuthToken = (req, res) => {
+const refreshAuthToken = async (req, res) => {
   const token = req.cookies.refresh_token;
 
   if (!token) {
@@ -108,6 +108,12 @@ const refreshAuthToken = (req, res) => {
 
   try {
     const { userId } = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
 
     const newAccessToken = jwt.sign({ userId }, process.env.ACCESS_SECRET_KEY, {
       expiresIn: "15m",
@@ -120,7 +126,15 @@ const refreshAuthToken = (req, res) => {
       secure: process.env.NODE_ENV !== "development",
     });
 
-    res.status(200).json({ message: "Token Refreshed" });
+    res.status(200).json({
+      message: "Token Refreshed",
+      user: {
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
   } catch (error) {
     console.log("Error in refreshAuth controller", error.message);
     res.status(403).json({ message: "Refresh Token Invalid or Expired" });

@@ -27,6 +27,10 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
+  setAuthUser: (user) => {
+    set({ authUser: user });
+  },
+
   signUp: async (data) => {
     set({ isSigningUp: true });
     try {

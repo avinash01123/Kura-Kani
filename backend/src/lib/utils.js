@@ -7,7 +7,7 @@ const generateToken = (userId, res) => {
   });
 
   const refreshToken = jwt.sign({ userId }, REFRESH_SECRET_KEY, {
-    expiresIn: "60d",
+    expiresIn: "7d",
   });
 
   res.cookie("access_token", accessToken, {
@@ -18,7 +18,7 @@ const generateToken = (userId, res) => {
   });
 
   res.cookie("refresh_token", refreshToken, {
-    maxAge: 60 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: "strict",
     secure: process.env.NODE_ENV !== "development",
