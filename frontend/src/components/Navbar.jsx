@@ -1,20 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { LogOut, MessageSquareText, Settings, UserRound } from "lucide-react";
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
+  const location = useLocation();
+  const isAuthPage = ["/login", "/signup"].includes(location.pathname);
 
   return (
     <header className="fixed top-0 w-full z-50 bg-base-100/80 backdrop-blur border-b border-base-300 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between font-sans">
-        <div className="w-10 lg:hidden"></div>
+        {!isAuthPage && authUser && <div className="w-10 lg:hidden"></div>}
 
         <Link
           to="/"
-          className="flex items-center gap-3 hover:opacity-90 transition"
+          className={`flex items-center gap-3 hover:opacity-90 transition ${
+            !isAuthPage && !authUser ? "mx-auto" : ""
+          }`}
         >
-          <div className="hidden md:flex bg-primary text-primary-content size-10 rounded-xl items-center justify-center shadow-inner">
+          <div
+            className={`${
+              isAuthPage ? "flex" : "hidden md:flex"
+            } bg-primary text-primary-content size-10 rounded-xl items-center justify-center shadow-inner`}
+          >
             <MessageSquareText className="w-5 h-5" />
           </div>
           <h1 className="text-xl font-bold tracking-tight">Kura Kani</h1>

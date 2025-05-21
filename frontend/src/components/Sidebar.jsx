@@ -25,7 +25,7 @@ const Sidebar = () => {
     <>
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="lg:hidden fixed top-2 left-2 z-100 bg-base-100 p-2 rounded-full shadow-md hover:bg-base-200"
+        className="lg:hidden fixed top-3 left-4 z-[60] bg-base-100 p-2 rounded-full shadow-md hover:bg-base-200"
       >
         <Menu size={24} />
       </button>
