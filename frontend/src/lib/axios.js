@@ -21,8 +21,10 @@ axiosInstance.interceptors.response.use(
 
       try {
         await axiosInstance.post("/auth/refresh");
+
         return axiosInstance(originalRequest);
       } catch (error) {
+        console.log("Token refresh failed", error.message);
         useAuthStore.getState().logout();
         return Promise.reject(error);
       }
