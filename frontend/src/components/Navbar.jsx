@@ -1,22 +1,32 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { LogOut, MessageSquareText, Settings, UserRound } from "lucide-react";
+import { LogOut, MessageSquareText, Settings, UserRound, Menu } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ onMenuClick }) => {
   const { logout, authUser } = useAuthStore();
 
   return (
     <header className="fixed top-0 w-full z-50 bg-base-100/80 backdrop-blur border-b border-base-300 shadow-sm">
-      <nav className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between font-sans">
+      <nav className="max-w-7xl mx-auto px-4 md:px-6 h-[4.25rem] flex items-center justify-between font-sans">
+        <div className="flex items-center gap-3 lg:hidden">
+          <button onClick={onMenuClick} className="btn btn-ghost btn-sm btn-circle">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+
         <Link
           to="/"
-          className="flex items-center gap-3 hover:opacity-90 transition"
+          className="hidden lg:flex items-center gap-3 hover:opacity-90 transition"
         >
           <div className="bg-primary text-primary-content size-10 rounded-xl flex items-center justify-center shadow-inner">
             <MessageSquareText className="w-5 h-5" />
           </div>
           <h1 className="text-xl font-bold tracking-tight">Kura Kani</h1>
         </Link>
+
+        <div className="flex-1 flex justify-center lg:hidden">
+          <h1 className="text-xl font-bold tracking-tight">Kura Kani</h1>
+        </div>
 
         <div className="flex items-center gap-4">
           {authUser && (
